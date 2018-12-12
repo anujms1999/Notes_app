@@ -8,16 +8,34 @@ const argv = yargs.argv;
 var command = argv._[0];
 
 if(command === 'add'){
-    notes.addNote(argv.title, argv.body);
+    var note = notes.addNote(argv.title, argv.body);
+    if(note === undefined){
+      console.log("Title already exists");
+    }
+    else{
+      console.log(`Note created ${note.title} ${note.body}`);
+    }
 }
 else if(command === 'list'){
   notes.getAll();
 }
 else if(command === 'read'){
-  notes.getNote(argv.title);
+  var note = notes.getNote(argv.title);
+  if(note){
+    console.log(note.body);
+  }
+  else{
+    console.log("Note not found");
+  }
 }
 else if(command === 'remove'){
-  notes.removeNote(argv.title);
+  var noteRemoved = notes.removeNote(argv.title);
+  if(noteRemoved){
+    console.log(`Note with ${argv.title} removed`);
+  }
+  else{
+    console.log("Note not found");
+  }
 }
 else{
   console.log('Command not found');
